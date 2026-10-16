@@ -14,7 +14,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   } catch (error) {
     if (error instanceof TypeError) {
       throw new Error(
-        "The server is not reachable. Start it on port 8080 and confirm the insidertrans database is available.",
+        "The server is not reachable. Start it on port 6060 and confirm the insidertrans database is available.",
       );
     }
     throw error;

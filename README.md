@@ -41,7 +41,7 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:5173. The dev server proxies `/api` to http://localhost:8080.
+Open http://localhost:5173. The dev server proxies `/api` to http://localhost:6060.
 
 ## API
 
