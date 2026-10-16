@@ -1,0 +1,433 @@
+:root {
+  color-scheme: light;
+  --ink: #1c1915;
+  --muted: #6f675c;
+  --canvas: #e7e0d2;
+  --paper: #fffaf2;
+  --line: #e3d9c6;
+  --forest: #17241e;
+  --forest-2: #24362c;
+  --cream: #f4ecdf;
+  --copper: #c4894a;
+  --buy: #1f7a4d;
+  --sell: #a33b32;
+  --shadow: 0 18px 40px rgba(28, 25, 21, 0.08);
+  font-family: "Outfit", "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: var(--canvas);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+h1,
+h2,
+h3,
+legend {
+  font-family: "Fraunces", "Palatino Linotype", Palatino, serif;
+  font-weight: 560;
+  letter-spacing: -0.03em;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  height: 100vh;
+  padding: 32px 24px;
+  background:
+    radial-gradient(circle at top left, rgba(196, 137, 74, 0.18), transparent 36%),
+    var(--forest);
+  color: var(--cream);
+  overflow: auto;
+}
+
+.brand h1 {
+  margin: 6px 0 10px;
+  font-size: 2.4rem;
+}
+
+.brand p,
+.database {
+  color: rgba(244, 236, 223, 0.78);
+  line-height: 1.5;
+}
+
+.eyebrow {
+  margin: 0;
+  font-family: "Outfit", "Segoe UI", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--copper);
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.filters,
+.record,
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.filters h2,
+.record h2 {
+  font-size: 1.5rem;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+label span,
+legend {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sidebar label span {
+  color: rgba(244, 236, 223, 0.72);
+}
+
+input,
+select {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #fffaf2;
+  color: var(--ink);
+}
+
+.sidebar input,
+.sidebar select {
+  background: rgba(255, 250, 242, 0.96);
+}
+
+.date-pair,
+.filter-actions,
+.record-actions,
+.record-head,
+.ledger-head,
+.banner {
+  display: flex;
+  gap: 10px;
+}
+
+.sidebar .date-pair {
+  flex-direction: column;
+}
+
+.filter-actions {
+  align-items: center;
+}
+
+.database {
+  margin-top: auto;
+  font-size: 0.85rem;
+}
+
+main {
+  padding: 36px;
+}
+
+.ledger-head,
+.record-head {
+  justify-content: space-between;
+  align-items: end;
+  margin-bottom: 22px;
+}
+
+.ledger-head h2,
+.record h2 {
+  font-size: 2.2rem;
+}
+
+.status-text,
+.note,
+.stack span,
+.empty p {
+  color: var(--muted);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.stats article,
+.empty,
+.table-wrap,
+.record,
+.banner {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+}
+
+.stats article {
+  padding: 16px 18px;
+}
+
+.stats span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.stats strong {
+  font-size: 1.35rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.up {
+  color: var(--buy);
+}
+
+.down {
+  color: var(--sell);
+}
+
+.note {
+  margin: 0 0 14px;
+  font-size: 0.9rem;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  min-width: 920px;
+  border-collapse: collapse;
+}
+
+caption,
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+th,
+td {
+  padding: 14px 16px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--line);
+}
+
+th {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ticker {
+  letter-spacing: 0.06em;
+}
+
+.code {
+  display: inline-flex;
+  width: fit-content;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  background: #efe6d4;
+}
+
+.code-p,
+.code-a,
+.code-m {
+  color: var(--buy);
+  background: #e5f3eb;
+}
+
+.code-s,
+.code-d,
+.code-f {
+  color: var(--sell);
+  background: #f8e7e4;
+}
+
+.code-g {
+  color: #6d4d16;
+  background: #f6ead3;
+}
+
+.empty {
+  padding: 42px 28px;
+}
+
+.empty h3 {
+  margin-bottom: 8px;
+  font-size: 1.6rem;
+}
+
+.banner {
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  color: #6d2d28;
+  background: #f8ece8;
+}
+
+.record {
+  padding: 28px;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 12px;
+}
+
+.button {
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 10px 16px;
+}
+
+.button-primary {
+  background: var(--copper);
+  color: #1b140c;
+  font-weight: 600;
+}
+
+.button-quiet {
+  background: var(--cream);
+  color: var(--forest);
+}
+
+.button-ghost,
+.button-tiny {
+  background: transparent;
+  border-color: currentColor;
+}
+
+.sidebar .button-ghost {
+  color: var(--cream);
+}
+
+.button-tiny {
+  padding: 6px 10px;
+  font-size: 0.85rem;
+}
+
+.button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+:focus-visible {
+  outline: 2px solid var(--copper);
+  outline-offset: 2px;
+}
+
+@media (max-width: 980px) {
+  .app {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+    height: auto;
+  }
+
+  .stats,
+  .fields {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  main {
+    padding: 22px 16px 40px;
+  }
+}
+
+@media (max-width: 640px) {
+  .stats,
+  .fields,
+  .date-pair,
+  .ledger-head,
+  .record-head,
+  .banner {
+    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
