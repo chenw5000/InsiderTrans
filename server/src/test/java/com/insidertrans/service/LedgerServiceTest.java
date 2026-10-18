@@ -100,6 +100,9 @@ class LedgerServiceTest {
                 new BigDecimal("1500.0000"),
                 new BigDecimal("180.2500"),
                 new BigDecimal("15000.0000"),
-                "Common Stock");
+                "Common Stock",
+                null,
+                null,
+                null);
     }
 }

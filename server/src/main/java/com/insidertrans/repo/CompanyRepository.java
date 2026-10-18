@@ -9,5 +9,7 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 
     Optional<Company> findByTickerIgnoreCase(String ticker);
 
+    List<Company> findByCik(String cik);
+
     List<Company> findAllByOrderByTickerAsc();
 }

@@ -8,12 +8,14 @@ import com.insidertrans.domain.TransactionCode;
 import com.insidertrans.repo.CompanyRepository;
 import com.insidertrans.repo.InsiderRepository;
 import com.insidertrans.repo.InsiderTransactionRepository;
+import com.insidertrans.web.dto.TransactionPageResponse;
 import com.insidertrans.web.dto.TransactionRequest;
 import com.insidertrans.web.dto.TransactionResponse;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Locale;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,9 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 @Transactional(readOnly = true)
 public class LedgerService {
+
+    public static final int DEFAULT_PAGE_SIZE = 10;
+    public static final int MAX_PAGE_SIZE = 100;
 
     private final CompanyRepository companies;
     private final InsiderRepository insiders;
@@ -36,11 +41,32 @@ public class LedgerService {
         this.transactions = transactions;
     }
 
-    public List<TransactionResponse> search(
-            String ticker, String insider, TransactionCode code, LocalDate from, LocalDate to) {
-        return transactions.search(blankToNull(ticker), likePattern(insider), code, from, to).stream()
-                .map(LedgerService::toResponse)
-                .toList();
+    public TransactionPageResponse search(
+            String ticker,
+            String insider,
+            TransactionCode code,
+            LocalDate from,
+            LocalDate to,
+            int page,
+            int size) {
+        int safePage = Math.max(page, 1);
+        int safeSize = size < 1 ? DEFAULT_PAGE_SIZE : Math.min(size, MAX_PAGE_SIZE);
+        String tickerFilter = blankToNull(ticker);
+        String insiderFilter = likePattern(insider);
+        Page<InsiderTransaction> result = transactions.search(
+                tickerFilter == null ? "" : tickerFilter.toLowerCase(Locale.ROOT),
+                insiderFilter == null ? "%" : insiderFilter,
+                code != null,
+                code == null ? TransactionCode.P : code,
+                from == null ? LocalDate.of(1900, 1, 1) : from,
+                to == null ? LocalDate.of(9999, 12, 31) : to,
+                PageRequest.of(safePage - 1, safeSize));
+        return new TransactionPageResponse(
+                result.getContent().stream().map(LedgerService::toResponse).toList(),
+                result.getNumber() + 1,
+                result.getSize(),
+                result.getTotalElements(),
+                result.getTotalPages());
     }
 
     public TransactionResponse get(Long id) {
@@ -77,6 +103,9 @@ public class LedgerService {
         transaction.setSharesOwnedFollowing(request.sharesOwnedFollowing());
         transaction.setSecurityTitle(request.securityTitle().trim());
         transaction.setInsiderRole(blankToNull(request.insiderRole()));
+        transaction.setAccessionNumber(blankToNull(request.accessionNumber()));
+        transaction.setDocumentUrl(blankToNull(request.documentUrl()));
+        transaction.setFormType(blankToNull(request.formType()));
 
         return toResponse(transactions.save(transaction));
     }
@@ -133,7 +162,10 @@ public class LedgerService {
                 price,
                 value,
                 transaction.getSharesOwnedFollowing(),
-                transaction.getSecurityTitle());
+                transaction.getSecurityTitle(),
+                transaction.getAccessionNumber(),
+                transaction.getDocumentUrl(),
+                transaction.getFormType());
     }
 
     private static String blankToNull(String value) {

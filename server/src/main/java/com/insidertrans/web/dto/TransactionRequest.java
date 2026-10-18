@@ -25,6 +25,9 @@ public record TransactionRequest(
         @NotNull @Positive @Digits(integer = 14, fraction = 4) BigDecimal shares,
         @PositiveOrZero @Digits(integer = 14, fraction = 4) BigDecimal pricePerShare,
         @PositiveOrZero @Digits(integer = 14, fraction = 4) BigDecimal sharesOwnedFollowing,
-        @NotBlank @Size(max = 120) String securityTitle
+        @NotBlank @Size(max = 120) String securityTitle,
+        @Size(max = 20) String accessionNumber,
+        @Size(max = 400) String documentUrl,
+        @Size(max = 8) String formType
 ) {
 }

@@ -27,6 +27,9 @@ export type Transaction = {
   value: number | null;
   sharesOwnedFollowing: number | null;
   securityTitle: string;
+  accessionNumber: string | null;
+  documentUrl: string | null;
+  formType: string | null;
 };
 
 export type Company = {
@@ -48,6 +51,35 @@ export type TransactionFilters = {
   code: TransactionCode | "";
   from: string;
   to: string;
+};
+
+export const DEFAULT_PAGE_SIZE = 10;
+
+export const FETCH_INTERVALS = [
+  { minutes: 15, label: "15 minutes" },
+  { minutes: 30, label: "30 minutes" },
+  { minutes: 60, label: "1 hour" },
+  { minutes: 180, label: "3 hours" },
+  { minutes: 360, label: "6 hours" },
+] as const;
+
+export type FetcherStatus = {
+  enabled: boolean;
+  intervalMinutes: number;
+  allowedIntervals: number[];
+  jobRunning: boolean;
+  jobKind: string;
+  lastRunAt: string | null;
+  lastSummary: string | null;
+  lastError: string | null;
+};
+
+export type TransactionPage = {
+  content: Transaction[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
 };
 
 export const emptyFilters: TransactionFilters = {

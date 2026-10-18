@@ -59,6 +59,15 @@ public class InsiderTransaction {
     @Column(name = "insider_role", length = 120)
     private String insiderRole;
 
+    @Column(name = "accession_number", length = 20)
+    private String accessionNumber;
+
+    @Column(name = "document_url", length = 400)
+    private String documentUrl;
+
+    @Column(name = "form_type", length = 8)
+    private String formType;
+
     public InsiderTransaction() {
     }
 
@@ -156,5 +165,29 @@ public class InsiderTransaction {
 
     public void setInsiderRole(String insiderRole) {
         this.insiderRole = insiderRole;
+    }
+
+    public String getAccessionNumber() {
+        return accessionNumber;
+    }
+
+    public void setAccessionNumber(String accessionNumber) {
+        this.accessionNumber = accessionNumber;
+    }
+
+    public String getDocumentUrl() {
+        return documentUrl;
+    }
+
+    public void setDocumentUrl(String documentUrl) {
+        this.documentUrl = documentUrl;
+    }
+
+    public String getFormType() {
+        return formType;
+    }
+
+    public void setFormType(String formType) {
+        this.formType = formType;
     }
 }

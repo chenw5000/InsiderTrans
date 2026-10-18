@@ -1,4 +1,13 @@
-import type { Company, Insider, Transaction, TransactionFilters, TransactionInput } from "./types";
+import type {
+  Company,
+  FetcherStatus,
+  Insider,
+  Transaction,
+  TransactionFilters,
+  TransactionInput,
+  TransactionPage,
+} from "./types";
+import { DEFAULT_PAGE_SIZE } from "./types";
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   let response: Response;
@@ -43,15 +52,20 @@ function emptyToNull(value: string): string | null {
   return trimmed === "" ? null : trimmed;
 }
 
-export function listTransactions(filters: TransactionFilters): Promise<Transaction[]> {
+export function listTransactions(
+  filters: TransactionFilters,
+  page = 1,
+  size = DEFAULT_PAGE_SIZE,
+): Promise<TransactionPage> {
   const params = new URLSearchParams();
   if (filters.ticker.trim()) params.set("ticker", filters.ticker.trim());
   if (filters.insider.trim()) params.set("insider", filters.insider.trim());
   if (filters.code) params.set("code", filters.code);
   if (filters.from) params.set("from", filters.from);
   if (filters.to) params.set("to", filters.to);
-  const query = params.toString();
-  return request<Transaction[]>(`/api/transactions${query ? `?${query}` : ""}`);
+  params.set("page", String(page));
+  params.set("size", String(size));
+  return request<TransactionPage>(`/api/transactions?${params.toString()}`);
 }
 
 export function createTransaction(input: TransactionInput): Promise<Transaction> {
@@ -86,4 +100,25 @@ export function listCompanies(): Promise<Company[]> {
 
 export function listInsiders(): Promise<Insider[]> {
   return request<Insider[]>("/api/insiders");
+}
+
+export function getFetcherStatus(): Promise<FetcherStatus> {
+  return request<FetcherStatus>("/api/admin/fetcher");
+}
+
+export function updateFetcher(config: {
+  enabled?: boolean;
+  intervalMinutes?: number;
+}): Promise<FetcherStatus> {
+  return request<FetcherStatus>("/api/admin/fetcher", {
+    method: "PUT",
+    body: JSON.stringify(config),
+  });
+}
+
+export function startBackfill(startDate: string, endDate: string): Promise<FetcherStatus> {
+  return request<FetcherStatus>("/api/admin/backfill", {
+    method: "POST",
+    body: JSON.stringify({ startDate, endDate }),
+  });
 }

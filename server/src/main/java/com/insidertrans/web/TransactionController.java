@@ -2,12 +2,12 @@ package com.insidertrans.web;
 
 import com.insidertrans.domain.TransactionCode;
 import com.insidertrans.service.LedgerService;
+import com.insidertrans.web.dto.TransactionPageResponse;
 import com.insidertrans.web.dto.TransactionRequest;
 import com.insidertrans.web.dto.TransactionResponse;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.time.LocalDate;
-import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,13 +31,15 @@ public class TransactionController {
     }
 
     @GetMapping
-    public List<TransactionResponse> list(
+    public TransactionPageResponse list(
             @RequestParam(required = false) String ticker,
             @RequestParam(required = false) String insider,
             @RequestParam(required = false) TransactionCode code,
             @RequestParam(required = false) LocalDate from,
-            @RequestParam(required = false) LocalDate to) {
-        return ledger.search(ticker, insider, code, from, to);
+            @RequestParam(required = false) LocalDate to,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ledger.search(ticker, insider, code, from, to, page, size);
     }
 
     @GetMapping("/{id}")

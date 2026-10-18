@@ -20,6 +20,9 @@ public record TransactionResponse(
         BigDecimal pricePerShare,
         BigDecimal value,
         BigDecimal sharesOwnedFollowing,
-        String securityTitle
+        String securityTitle,
+        String accessionNumber,
+        String documentUrl,
+        String formType
 ) {
 }

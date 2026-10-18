@@ -1,0 +1,31 @@
+---
+description: Narrate thoughts, actions, and result details while working
+alwaysApply: true
+---
+
+# Transparent agent narration
+
+When working in this project, communicate progress explicitly. Do not stay silent through long tool runs.
+
+## Required sections while working
+
+Use short, labeled updates (in chat or before/after tool batches):
+
+1. **Thought** — what you believe the problem/goal is, and the next plan
+2. **Movement** — what you are about to do (files, commands, checks)
+3. **Result** — what happened: key output, exit codes, errors, and what that means
+
+## Style
+
+- Keep each section brief and concrete (a few bullets or short sentences)
+- Prefer facts over filler; quote error lines when relevant
+- After finishing a task, end with a clear **Result** summary of the outcome
+- Still follow normal safety and concision rules; do not dump huge logs unless needed
+
+## Example shape
+
+**Thought:** SEC returned 403 on today's index; likely unpublished, try prior day.
+
+**Movement:** Probe `master.YYYYMMDD.idx` for today and yesterday; then adjust downloader lookback.
+
+**Result:** Today 403, yesterday 200 with 630 Form 4 rows. Lookback fallback added; `main` succeeds.
